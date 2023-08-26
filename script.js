@@ -66,3 +66,91 @@ test("There are at least 500 words on the page", () => {
 
 const console = document.getElementById("tests");
 prettify.toHTML(run(), console);
+var dice, rolls, total, item;
+
+// Describe this function...
+function rolled_dice_total() {
+  if(--window.LoopTrap <= 0) throw "Infinite loop.";
+  let element_total = document.getElementById('total');
+  total = rolls.reduce((a,b) => a+b, 0);
+  element_total.innerText = total;
+}
+
+// Describe this function...
+function show_winning_info() {
+  if(--window.LoopTrap <= 0) throw "Infinite loop.";
+  let element_info = document.getElementById('info');
+  if (total == 11) {
+    element_info.replaceChildren();
+    element_info.innerText = 'You Won!';
+  } else if (total > 11) {
+    element_info.replaceChildren();
+    element_info.innerText = 'You Lost!';
+  } else {
+    element_info.innerText = 'Keep Playing!';
+  }
+}
+
+function randomInt(n) {
+  // Return a random number from in [0, n[
+  return Math.floor(Math.random()*n);
+}
+
+function randomMember(arr) {
+  // Return a random member of the array
+  return arr[randomInt(arr.length)]
+}
+
+// Describe this function...
+function Remove_List_Item() {
+  if(--window.LoopTrap <= 0) throw "Infinite loop.";
+  let element_list3 = document.getElementById('list');
+  element_list3.replaceChildren();
+  rolls.pop();
+  rolls.forEach((item) => {
+    let element_list4 = document.getElementById('list');
+    let new_li2 = document.createElement('li');
+    new_li2.innerText = item;
+
+    element_list4.appendChild(new_li2);
+  });
+}
+
+
+dice = [1, 2, 3, 4, 5, 6];
+rolls = [];
+total = 0;
+
+0;
+
+
+document.getElementById('button_roll').addEventListener('click', (event) => {
+  let element_list = document.getElementById('list');
+  rolls.push(randomMember(dice));
+  let new_li = document.createElement('li');
+  new_li.innerText = rolls.slice(-1)[0];
+
+  element_list.appendChild(new_li);
+  rolled_dice_total();
+  show_winning_info();
+
+});
+rolled_dice_total();
+show_winning_info();
+
+
+document.getElementById('button_remove').addEventListener('click', (event) => {
+  Remove_List_Item();
+  rolled_dice_total();
+  show_winning_info();
+
+});
+
+document.getElementById('button_restart').addEventListener('click', (event) => {
+  let element_list2 = document.getElementById('list');
+  element_list2.replaceChildren();
+  rolls = [0, 0];
+  rolled_dice_total();
+  show_winning_info();
+
+});
